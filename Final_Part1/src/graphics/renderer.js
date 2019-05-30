@@ -1,4 +1,7 @@
 var _renderer = null;
+var currentAngle = null;
+var last = Date.now();
+var ANGLE_STEP = 20;
 
 /**
  * Specifies a WebGL render. Used alongside Spring 2019 CMPS 160's Scene,
@@ -14,10 +17,11 @@ class Renderer {
    * @constructor
    * @returns {Renderer} Renderer object created
    */
-  constructor(gl, scene, camera) {
+  constructor(gl, scene, camera,ctx) {
     this.gl = gl;
     this.scene = scene;
     this.camera = camera;
+    this.ctx = ctx;
     this.textures = {};
     this.initGLSLBuffers();
     // Setting canvas' clear color
@@ -31,6 +35,9 @@ class Renderer {
    */
   start() {
     _renderer.render();
+
+
+
     requestAnimationFrame(_renderer.start);
   }
   /**

@@ -1,3 +1,5 @@
+var i = 1;
+var j = 20;
 /**
  * Specifies a triangle. A subclass of geometry.
  *
@@ -51,9 +53,9 @@ class Circle1 extends Geometry {
         var vertex1 = new Vertex (x_p,y_p,0.0);
         var vertex2 = new Vertex (x_p +radius*Math.cos(i*2*Math.PI/number),y_p +radius*Math.sin(i*2*Math.PI/number),0.0);
         var vertex3 = new Vertex (x_p +radius*Math.cos((i+1)*2*Math.PI/number),y_p +radius*Math.sin((i+1)*2*Math.PI/number),0.0);
-        vertex1.color = [255/255, 88/255, 34/255, 0.8];
-        vertex2.color = [255/255, 88/255, 34/255, 0.8];
-        vertex3.color = [255/255, 88/255, 34/255, 0.8];
+        vertex1.color = [255/255, 120/255, 34/255, 0.2];
+        vertex2.color = [255/255, 120/255, 34/255, 0.2];
+        vertex3.color = [255/255, 120/255, 34/255, 0.2];
         vertices.push(vertex1);
         vertices.push(vertex2);
         vertices.push(vertex3);
@@ -88,6 +90,17 @@ class Circle1 extends Geometry {
 
     this.shader.setUniform("u_ModelMatrix", this.modelMatrix.elements); 
     */
+    this.timer += 0.1;
+
+    // Translate to the origin
+
+      i = i - 1;
+      j = j + 20;
+
+      this.vertices[0].color = [255/255, 88/255, 34/255, i];
+      this.vertices[1].color= [255/255, 88/255, 34/255, i];
+      this.vertices[2].color= [255/255, 88/255, 34/255, i];
+      //this.modelMatrix = this.modelMatrix.multiply(this.scalingMatrix_2);
 
     
       for(var i=0;i<1;i++){

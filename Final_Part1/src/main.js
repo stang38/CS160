@@ -46,8 +46,18 @@ function main() {
     
     spawnGeometry();
 
+    // for (var i =0; i<=300; i++) {
+    //         for (var j=0; j<=4;j++){
+    //         var shape = new Circle1(shader,0,0,1,2,3,15,10);
+    //         scene.addGeometry(shape);
+    //         var shape2 = new Circle2(shader,0,0,1,2,3,1,10);
+    //         scene.addGeometry(shape2);
+    //         //m = m + 0.05 ;
+    //         } 
+    //     }
 
-    renderer = new Renderer(gl, scene, null);
+
+    renderer = new Renderer(gl, scene, null, ctx);
     renderer.start();
 }
 

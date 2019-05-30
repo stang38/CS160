@@ -24,7 +24,6 @@ class Renderer {
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
     this.gl.enable (gl.BLEND);
     this.gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
     _renderer = this;
   }
   /**
@@ -65,6 +64,7 @@ class Renderer {
       this.sendVertexDataToGLSL(geometry.data, geometry.dataCounts, geometry.shader);
       this.sendIndicesToGLSL(geometry.indices);
       this.drawBuffer(geometry.indices.length)
+
     //  timer++;
      // console.log("time:", timer);
     }

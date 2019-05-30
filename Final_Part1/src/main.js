@@ -2,12 +2,22 @@ var shader = null;
 var tshader = null;
 var scene;
 var ctx;
+var ctxx;
 var gl;
+var hud;
+var x=360;
+var y=400;
+
+
+
+
 
 function main() {
   // Retrieve the canvas from the HTML document
     canvas = document.getElementById("webgl");
-     hud = document.getElementById("hud");
+    hud = document.getElementById("hud");
+    realhud =  document.getElementById("realhud");
+  // mouse = document.getElementById("mouse");
     // Retrieve WebGL rendering context
     gl = canvas.getContext("webgl", {preserveDrawingBuffer: true});
     if (!gl) {
@@ -16,10 +26,18 @@ function main() {
     }
     //add hud
     ctx = hud.getContext('2d');
-    ctx.font = '18px "Times New Roman"';
-    ctx.fillStyle = 'rgba(255, 255, 0, 1)';
-    ctx.fillText('Click the Geometries as Many as You Can!', 320, 40);
+    canvasDraw();
+    ctxx = realhud.getContext('2d');
+    ctxx.font = '18px "Times New Roman"';
+    ctxx.fillStyle = 'rgba(255, 255, 0, 1)';
+    ctxx.fillText('Click the Geometries as Many as You Can!', 320, 40);
+    
+    // c = mouse.getContext('2d');
+    // c.beginPath();
+    // c.arc(0, 0, 20, 0, degToRad(360), true);
+    // c.fill();
     // Initialize the scene
+
     scene = new Scene(); 
     // Initialize shader
     shader = new Shader(gl, FINAL_VSHADER, FINAL_FSHADER);
@@ -28,7 +46,7 @@ function main() {
     // Add uniforms
     var idMatrix = new Matrix4();
     shader.addUniform("u_ModelMatrix", "mat4", idMatrix.elements);
-    var inputHandler = new InputHandler(canvas, scene,ctx);
+    var inputHandler = new InputHandler(canvas, scene,ctx,hud);
     //test
     // let shape = new Triangle(shader,0,0,40);
     // scene.addGeometry(shape);
@@ -65,3 +83,17 @@ function spawnGeometry(){
     
 
 }
+
+
+function degToRad(degrees) {
+  var result = Math.PI / 180 * degrees;
+  return result;
+}
+function canvasDraw() {
+ ctx.clearRect(0,0,hud.width,hud.height);
+ ctx.fillStyle = "#f12";
+  ctx.beginPath();
+  ctx.arc(x,y, 20, 0, degToRad(360), true);
+  ctx.fill();
+}
+

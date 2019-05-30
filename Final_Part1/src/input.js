@@ -4,6 +4,7 @@ var mousedown = false;
 var r=0;
 var g=1;
 var b=0;
+var animation;
 
 
 /**
@@ -16,10 +17,11 @@ class InputHandler {
     /**
      * Initializes the event handeling functions within the program.
      */
-    constructor(canvas, scene,ctx) {
+    constructor(canvas, scene,ctx,hud) {
       this.canvas = canvas;
       this.scene = scene;
       this.ctx = ctx;
+      this.hud = hud;
       _inputHandler = this;
       // // Mouse Events
       this.canvas.onmousedown = function(ev) { 
@@ -29,6 +31,18 @@ class InputHandler {
       this.canvas.onmouseup = function(ev){
         mousedown = false;
       };
+      this.hud.requestPointerLock = this.hud.requestPointerLock ||
+                            this.hud.mozRequestPointerLock;
+
+      document.exitPointerLock = document.exitPointerLock ||
+                           document.mozExitPointerLock;
+
+    this.hud.onclick = function() {
+      hud.requestPointerLock();
+    };
+    // Hook pointer lock state change events for different browsers
+    document.addEventListener('pointerlockchange', _inputHandler.lockChangeAlert, false);
+    document.addEventListener('mozpointerlockchange', _inputHandler.lockChangeAlert, false);
 
     }
     /**
@@ -38,7 +52,8 @@ class InputHandler {
         var x = ev.clientX;
         var y = ev.clientY;
         var rect = ev.target.getBoundingClientRect();
-        var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
+        var x_in_canvas = x - rect.left
+        var y_in_canvas = rect.bottom - y;
         
         // for (var i =0; i<=300; i++) {
         //     for (var j=0; j<=4;j++){
@@ -65,5 +80,43 @@ class InputHandler {
           this.ctx.fillText('You win!', 340, 60);
         }
     }
+
+    lockChangeAlert() {
+        if (document.pointerLockElement === hud ||
+            document.mozPointerLockElement === hud) {
+          console.log('The pointer lock status is now locked');
+          document.addEventListener("mousemove", _inputHandler.updatePosition, false);
+        } else {
+          console.log('The pointer lock status is now unlocked');  
+          document.removeEventListener("mousemove", _inputHandler.updatePosition, false);
+        }
+    }
+    updatePosition(ev) {
+        x += ev.movementX;
+        y += ev.movementY;
+        if (x > hud.width + 20) {
+          x = -20;
+        }
+        if (y > hud.height + 20) {
+          y = -20;
+        }  
+        if (x < -20) {
+          x = hud.width + 20;
+        }
+        if (y < -20) {
+          y = hud.height + 20;
+        }
+      //  tracker.textContent = "X position: " + x + ", Y position: " + y;
+
+        if (!animation) {
+          animation = requestAnimationFrame(function() {
+              animation = null;
+              canvasDraw();
+          });
+        }
+         console.log(x,y);
+    }
    
 }
+
+

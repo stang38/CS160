@@ -19,7 +19,7 @@ class InputHandler {
     constructor(canvas, scene,ctx) {
       this.canvas = canvas;
       this.scene = scene;
-      this.nmbs = ctx;
+      this.ctx = ctx;
       _inputHandler = this;
       // // Mouse Events
       this.canvas.onmousedown = function(ev) { 
@@ -35,20 +35,34 @@ class InputHandler {
      * Function called upon mouse click.
      */
     click(ev) {
-        var x_o = ev.clientX;
-        var y_o = ev.clientY;
+        var x = ev.clientX;
+        var y = ev.clientY;
         var rect = ev.target.getBoundingClientRect();
-        var x = ((x_o - rect.left) - canvas.width/2) / (canvas.width/2);
-        var y = (canvas.height/2 - (y_o - rect.top)) / (canvas.height/2);
+        var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
+        
+        // for (var i =0; i<=300; i++) {
+        //     for (var j=0; j<=4;j++){
+        //     var shape = new Circle1(shader,x,y,1,2,3,5,10);
+        //     this.scene.addGeometry(shape);
+        //     var shape2 = new Circle2(shader,x,y,1,2,3,1,10);
+        //     this.scene.addGeometry(shape2);
+        //     //m = m + 0.05 ;
+        //     } 
+        // }
         let pixels = new Uint8Array(4);
-        gl.readPixels(x_o+20,y_o-20,1,1, gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+        gl.readPixels(x_in_canvas,y_in_canvas,1,1, gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+        
         console.log(pixels);
+
         let rVal = pixels[0];
         let gVal = pixels[1];
         let bVal = pixels[2];
         let alpha = pixels[3];
         if (alpha!=255){
           this.scene.clearGeometries();
+          this.ctx.font = '20px "Times New Roman"';
+          this.ctx.fillStyle = 'rgba(255, 0, 128, 1)';
+          this.ctx.fillText('You win!', 340, 60);
         }
     }
    

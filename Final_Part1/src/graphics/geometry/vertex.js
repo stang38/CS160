@@ -7,6 +7,6 @@
 class Vertex {
   constructor(x, y, z) {
   	this.point  = new Vector3([x, y, z]);
-    this.color  = [r,g,b,0.5];
+    this.color  = [r,g,b,0.2];
   }
 }

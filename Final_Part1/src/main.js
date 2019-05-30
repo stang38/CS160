@@ -18,7 +18,7 @@ function main() {
     ctx = hud.getContext('2d');
     ctx.font = '18px "Times New Roman"';
     ctx.fillStyle = 'rgba(255, 255, 0, 1)';
-    ctx.fillText('Click the Geometry!', 320, 40);
+    ctx.fillText('Click the Geometries as Many as You Can!', 320, 40);
     // Initialize the scene
     scene = new Scene(); 
     // Initialize shader
@@ -29,14 +29,22 @@ function main() {
     var idMatrix = new Matrix4();
     shader.addUniform("u_ModelMatrix", "mat4", idMatrix.elements);
     var inputHandler = new InputHandler(canvas, scene,ctx);
-  //  test
-    let shape = new Cube(shader,0,0.5,40);
-    scene.addGeometry(shape);
+    //test
+    // let shape = new Triangle(shader,0,0,40);
+    // scene.addGeometry(shape);
 
     // let nice = new Triangle(shader,0,0.4,40);
     // scene.addGeometry(nice);
+
+    //let good = new Cube(shader,0,-0.5,20);
+    //scene.addGeometry(good);
+
+    //let circle = new Circle(shader,0.5,0.5,20,20);
+    //scene.addGeometry(circle);
+
     //initialize the game
-    // spawnGeometry();
+    
+    spawnGeometry();
 
 
     renderer = new Renderer(gl, scene, null);
@@ -44,6 +52,7 @@ function main() {
 }
 
 function spawnGeometry(){
+    
     //spawn geometry
     setInterval(function(){let shape = new Triangle(shader,Math.random()*(-0.8), -0.8,20);
                            scene.addGeometry(shape);},2000);
@@ -53,5 +62,6 @@ function spawnGeometry(){
                              scene.addGeometry(shape);},5000);
     //clear at certain time to avoid lagging
     setInterval(function(){scene.clearGeometries();},21000);
+    
 
 }

@@ -103,10 +103,10 @@ class Cube extends Geometry{
     }
 
     render(){
-        // this.translationMatrix = new Matrix4();
-        // this.translationMatrix.setTranslate(-0.04,0.03, 0);
-        // this.modelMatrix = this.translationMatrix.multiply(this.modelMatrix);
-        // this.shader.setUniform("u_ModelMatrix", this.modelMatrix.elements); 
+        this.translationMatrix = new Matrix4();
+        this.translationMatrix.setTranslate(-0.04,0.03, 0);
+        this.modelMatrix = this.translationMatrix.multiply(this.modelMatrix);
+        this.shader.setUniform("u_ModelMatrix", this.modelMatrix.elements); 
   }
 
 

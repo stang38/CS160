@@ -26,6 +26,7 @@ function main() {
     }
     //add hud
     ctx = hud.getContext('2d');
+   
     canvasDraw();
     ctxx = realhud.getContext('2d');
     ctxx.font = '18px "Times New Roman"';
@@ -64,18 +65,8 @@ function main() {
     
     spawnGeometry();
 
-    // for (var i =0; i<=300; i++) {
-    //         for (var j=0; j<=4;j++){
-    //         var shape = new Circle1(shader,0,0,1,2,3,15,10);
-    //         scene.addGeometry(shape);
-    //         var shape2 = new Circle2(shader,0,0,1,2,3,1,10);
-    //         scene.addGeometry(shape2);
-    //         //m = m + 0.05 ;
-    //         } 
-    //     }
 
-
-    renderer = new Renderer(gl, scene, null, ctx);
+    renderer = new Renderer(gl, scene, null,ctxx);
     renderer.start();
 }
 
@@ -100,8 +91,8 @@ function degToRad(degrees) {
   return result;
 }
 function canvasDraw() {
- ctx.clearRect(0,0,hud.width,hud.height);
- ctx.fillStyle = "#f12";
+  ctx.clearRect(0,0,hud.width,hud.height);
+  ctx.fillStyle = "#f12";
   ctx.beginPath();
   ctx.arc(x,y, 20, 0, degToRad(360), true);
   ctx.fill();

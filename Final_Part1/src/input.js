@@ -1,10 +1,11 @@
 var _inputHandler = null;
 var shape = 2;
 var mousedown = false;
-var r=0;
-var g=1;
-var b=0;
+var r=Math.random();
+var g=Math.random();
+var b=Math.random();
 var animation;
+var time;
 
 
 /**
@@ -26,13 +27,13 @@ class InputHandler {
       // // Mouse Events
 
 
-      this.canvas.onmousedown = function(ev) {
-        _inputHandler.click(ev);
-        mousedown = true;
-      };
-      this.canvas.onmouseup = function(ev){
-        mousedown = false;
-      };
+      // this.canvas.onmousedown = function(ev) {
+      //   _inputHandler.click(ev);
+      //   mousedown = true;
+      // };
+      // this.canvas.onmouseup = function(ev){
+      //   mousedown = false;
+      // };
       this.hud.requestPointerLock = this.hud.requestPointerLock ||
                             this.hud.mozRequestPointerLock;
 
@@ -46,67 +47,57 @@ class InputHandler {
     document.addEventListener('pointerlockchange', _inputHandler.lockChangeAlert, false);
     document.addEventListener('mozpointerlockchange', _inputHandler.lockChangeAlert, false);
 
-      this.canvas.onmousemove = function(ev){
-        if (mousedown){
-          _inputHandler.click(ev);
-        }
-      };
+      // this.canvas.onmousemove = function(ev){
+      //   if (mousedown){
+      //     _inputHandler.click(ev);
+      //   }
+      // };
 
 
     }
     /**
      * Function called upon mouse click.
      */
-    click(ev) {
-        var x = ev.clientX;
-        var y = ev.clientY;
-        var rect = ev.target.getBoundingClientRect();
-        var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
+    // click(ev) {
+    //     var x = ev.clientX;
+    //     var y = ev.clientY;
+    //     var rect = ev.target.getBoundingClientRect();
+    //     var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
 
-        var x2 = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-        var y2 = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+    //     var x2 = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+    //     var y2 = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
 
-        // for (var i =0; i<=100; i++) {
-        //     for (var j=0; j<=4;j++){
-        //     var shape = new Circle1(shader,x,y,1,2,3,1,10);
-        //     this.scene.addGeometry(shape);
-        //     var shape2 = new Circle2(shader,x,y,1,2,3,1,10);
-        //     this.scene.addGeometry(shape2);
-        //     //m = m + 0.05 ;
-        //     }
-        // }
+    //     let pixels = new Uint8Array(4);
+    //     gl.readPixels(x_in_canvas,y_in_canvas,1,1, gl.RGBA,gl.UNSIGNED_BYTE,pixels);
 
-        let pixels = new Uint8Array(4);
-        gl.readPixels(x_in_canvas,y_in_canvas,1,1, gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+    //     console.log(pixels);
 
-        console.log(pixels);
+    //     let rVal = pixels[0];
+    //     let gVal = pixels[1];
+    //     let bVal = pixels[2];
+    //     let alpha = pixels[3];
+    //     if (alpha!=255){
+    //       this.scene.clearGeometries();
+    //       this.ctx.font = '20px "Times New Roman"';
+    //       this.ctx.fillStyle = 'rgba(255, 0, 128, 1)';
 
-        let rVal = pixels[0];
-        let gVal = pixels[1];
-        let bVal = pixels[2];
-        let alpha = pixels[3];
-        if (alpha!=255){
-          this.scene.clearGeometries();
-          this.ctx.font = '20px "Times New Roman"';
-          this.ctx.fillStyle = 'rgba(255, 0, 128, 1)';
+    //       //this.ctx.clearRect(0, 0, 800, 80);
+    //       time = Math.floor(currentAngle);
+    //       this.ctx.fillText("time: ", 340, 60);
+    //       this.ctx.fillText(time, 400, 60);
 
-          //this.ctx.clearRect(0, 0, 800, 80);
-          time = Math.floor(currentAngle);
-          this.ctx.fillText("time: ", 340, 60);
-          this.ctx.fillText(time, 400, 60);
-
-          for (var i =0; i<=50; i++) {
-            for (var j=0; j<=4;j++){
-            var shape = new Circle1(shader,x2,y2,1,2,3,20,10);
-            this.scene.addGeometry(shape);
-            var shape2 = new Circle2(shader,x2,y2,1,2,3,1,10);
-            this.scene.addGeometry(shape2);
-            //m = m + 0.05 ;
-            }
-        }
-          console.log("time: ",time);
-        }
-    }
+    //       for (var i =0; i<=50; i++) {
+    //         for (var j=0; j<=4;j++){
+    //         var shape = new Circle1(shader,x2,y2,1,2,3,20,10);
+    //         this.scene.addGeometry(shape);
+    //         var shape2 = new Circle2(shader,x2,y2,1,2,3,1,10);
+    //         this.scene.addGeometry(shape2);
+    //         //m = m + 0.05 ;
+    //         }
+    //     }
+    //       console.log("time: ",time);
+    //     }
+    // }
 
     lockChangeAlert() {
         if (document.pointerLockElement === hud ||
@@ -121,6 +112,41 @@ class InputHandler {
     updatePosition(ev) {
         x += ev.movementX;
         y += ev.movementY;
+        var rect = ev.target.getBoundingClientRect();
+        var x_in_canvas = x - rect.left, y_in_canvas = rect.bottom - y;
+        var x2 = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+        var y2 = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+
+        let pixels = new Uint8Array(4);
+        gl.readPixels(x_in_canvas,y_in_canvas,1,1, gl.RGBA,gl.UNSIGNED_BYTE,pixels);
+        console.log("pixels: ",pixels);
+
+        let alpha = pixels[3];
+        if(alpha != 255){
+
+          _inputHandler.scene.clearGeometries();
+         _inputHandler.ctx.font = '20px "Times New Roman"';
+          _inputHandler.ctx.fillStyle = 'rgba(255, 0, 128, 1)';
+          _inputHandler.ctx.fillText('NMSL!', 340, 60);
+
+          //_inputHandler._inputHandler.clearRect(0, 0, 800, 80);
+          time = Math.floor(currentAngle);
+          _inputHandler.ctx.fillText("time: ", 340, 60);
+          _inputHandler.ctx.fillText(time, 400, 60);
+
+          for (var i =0; i<=50; i++) {
+            for (var j=0; j<=4;j++){
+            var shape = new Circle1(shader,x2,y2,1,2,3,20,10);
+            _inputHandler.scene.addGeometry(shape);
+            var shape2 = new Circle2(shader,x2,y2,1,2,3,1,10);
+            _inputHandler.scene.addGeometry(shape2);
+            //m = m + 0.05 ;
+            } 
+        }
+          console.log("time: ",time);
+
+        }
+        
         if (x > hud.width + 20) {
           x = -20;
         }

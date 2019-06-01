@@ -1,8 +1,8 @@
+
 var _renderer = null;
 var currentAngle = null;
 var last = Date.now();
 var ANGLE_STEP = 20;
-
 /**
  * Specifies a WebGL render. Used alongside Spring 2019 CMPS 160's Scene,
  * Camera, Geometry, and other subclasses.
@@ -17,12 +17,12 @@ class Renderer {
    * @constructor
    * @returns {Renderer} Renderer object created
    */
-  constructor(gl, scene, camera,ctx) {
+  constructor(gl, scene, camera,ctxx) {
     this.gl = gl;
     this.scene = scene;
     this.camera = camera;
-    this.ctx = ctx;
     this.textures = {};
+    this.ctx = ctxx;
     this.initGLSLBuffers();
     // Setting canvas' clear color
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -35,9 +35,6 @@ class Renderer {
    */
   start() {
     _renderer.render();
-
-
-
     requestAnimationFrame(_renderer.start);
   }
   /**
@@ -71,6 +68,21 @@ class Renderer {
       this.sendVertexDataToGLSL(geometry.data, geometry.dataCounts, geometry.shader);
       this.sendIndicesToGLSL(geometry.indices);
       this.drawBuffer(geometry.indices.length)
+
+      //print time
+      var now = Date.now();   // Calculate the elapsed time
+      var elapsed = now - last;
+      last = now;
+
+    // Update the current rotation angle (adjusted by the elapsed time)
+      currentAngle = currentAngle + elapsed / 1000.0;
+      currentAngle = currentAngle % 360;
+
+      this.ctx.clearRect(0, 0, 200, 100);
+      this.ctx.font = '20px "Times New Roman"';
+      this.ctx.fillStyle = 'rgba(255, 0, 128, 1)';
+      this.ctx.fillText("Your Survival Time:", 10,60);
+      this.ctx.fillText(Math.floor(currentAngle), 180,60);
 
     //  timer++;
      // console.log("time:", timer);
